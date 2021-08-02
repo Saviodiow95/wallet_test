@@ -51,16 +51,16 @@ class ApiTestCase(TestCase):
         }
 
         response_valid = self.client.post(reverse('asset_list'),
-                                    data=json.dumps(asset_valid),
-                                    content_type='application/json')
+                                          data=json.dumps(asset_valid),
+                                          content_type='application/json')
         self.assertEqual(response_valid.status_code, status.HTTP_201_CREATED)
 
         response_invalid = self.client.post(reverse('asset_list'),
-                                    data=json.dumps(asset_invalid),
-                                    content_type='application/json')
+                                            data=json.dumps(asset_invalid),
+                                            content_type='application/json')
         self.assertEqual(response_invalid.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_asset_create(self):
+    def test_asset_update(self):
         asset = {
             "id": 1,
             "name": "Bitcoin",
@@ -69,11 +69,10 @@ class ApiTestCase(TestCase):
         }
 
         response = self.client.put('/api/asset/1',
-                                    data=json.dumps(asset),
-                                    content_type='application/json')
+                                   data=json.dumps(asset),
+                                   content_type='application/json')
         # Teste de retorno do status_code
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Teste se o retorno da api, etá de acordo com os dados enviados
         serializer = AssetSerializer(asset, many=False)
         self.assertEqual(response.data, serializer.data)
-
